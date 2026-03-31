@@ -1,0 +1,3 @@
+[alias]
+proof-sweep = "test -p rev_gol_proof -- --include-ignored"
+workspace-sweep = "test -- --include-ignored"

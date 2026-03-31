@@ -1,0 +1,12 @@
+[package]
+name = "gol"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+rayon = "1.10.0"
+clap = { version = "4.5", features = ["derive"] }
+
+[lib]
+name = "gol"
+path = "src/lib.rs"

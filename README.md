@@ -1,10 +1,31 @@
-# Reverse Game of Life SAT Solver
+# GOL Workspace
 
-A Rust implementation that uses SAT solving to find predecessor states for Conway's Game of Life. Given a target state, this tool finds all possible states that could have led to it after a specified number of generations.
+A Rust workspace for Conway's Game of Life tooling. The repository is organized as a monorepo with separate crates for forward simulation, reverse SAT solving, proof tooling, and input generation.
+
+## Workspace Layout
+
+- `crates/gol`: forward Game of Life simulator
+- `crates/rev_gol`: finite-board reverse Game of Life SAT solver
+- `crates/rev_gol_proof`: proof-side gadget loading and verification
+- `crates/text_to_input`: text-to-grid utility for generating pattern inputs
+
+The root of the repository now holds shared documentation, configs, example inputs, and outside reference sources.
+
+`gol` still uses nightly Rust because of its SIMD engine, so the root workspace default members are limited to the stable crates. Run `cargo test` from the root for the stable workspace, `cargo proof-sweep` for the full proof verification pass including ignored slow tests, and `cargo test` inside `crates/gol` for the forward simulator.
+
+For the current integration/proof status of the workspace, see `docs/current_state.md`.
 
 ## Overview
 
-This project solves the NP-Complete problem of reversing Conway's Game of Life by converting it into a boolean satisfiability (SAT) problem and using the CaDiCaL SAT solver to find solutions.
+The main reverse solver converts finite reverse-Game-of-Life instances into SAT and uses CaDiCaL or ParKissat to search for valid predecessor states. The proof crate is kept separate because it targets a different verification problem than the finite-board reverse solver.
+
+The proof crate now also contains a first `SAT -> Rev_GOL` construction stack:
+
+- CNF / Boolean-circuit IR
+- macro-level gadget placement compiler
+- splitter expansion for shared fanout
+- a printable layout blueprint via `cargo run -p rev_gol_proof --example compile_cnf`
+- DIMACS input support plus optional export of emitted board candidates in `rev_gol` grid format via `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --output-grid <FILE>`
 
 ### Key Features
 
@@ -32,24 +53,24 @@ This project solves the NP-Complete problem of reversing Conway's Game of Life b
 ```bash
 git clone <repository-url>
 cd game_of_life_reverse
-cargo build --release
+cargo build -p rev_gol --release
 ```
 
 ## Quick Start
 
 1. **Set up the project structure:**
    ```bash
-   cargo run -- setup
+   cargo run -p rev_gol -- setup
    ```
 
 2. **Solve a simple example:**
    ```bash
-   cargo run -- solve --config config/examples/simple.yaml
+   cargo run -p rev_gol -- solve --config config/examples/simple.yaml
    ```
 
 3. **Analyze a target state:**
    ```bash
-   cargo run -- analyze --target input/target_states/blinker.txt
+   cargo run -p rev_gol -- analyze --target input/target_states/blinker.txt
    ```
 
 ## Usage
@@ -59,7 +80,7 @@ cargo build --release
 #### `solve` - Find predecessor states
 
 ```bash
-cargo run -- solve [OPTIONS]
+cargo run -p rev_gol -- solve [OPTIONS]
 ```
 
 **Options:**
@@ -74,19 +95,19 @@ cargo run -- solve [OPTIONS]
 **Examples:**
 ```bash
 # Basic usage
-cargo run -- solve
+cargo run -p rev_gol -- solve
 
 # Custom parameters
-cargo run -- solve --target input/target_states/glider.txt --generations 3 --max-solutions 5
+cargo run -p rev_gol -- solve --target input/target_states/glider.txt --generations 3 --max-solutions 5
 
 # Verbose output with evolution
-cargo run -- solve --verbose --show-evolution
+cargo run -p rev_gol -- solve --verbose --show-evolution
 ```
 
 #### `setup` - Initialize project structure
 
 ```bash
-cargo run -- setup [OPTIONS]
+cargo run -p rev_gol -- setup [OPTIONS]
 ```
 
 **Options:**
@@ -96,7 +117,7 @@ cargo run -- setup [OPTIONS]
 #### `validate` - Validate a solution manually
 
 ```bash
-cargo run -- validate [OPTIONS]
+cargo run -p rev_gol -- validate [OPTIONS]
 ```
 
 **Options:**
@@ -108,7 +129,7 @@ cargo run -- validate [OPTIONS]
 #### `analyze` - Analyze target state solvability
 
 ```bash
-cargo run -- analyze [OPTIONS]
+cargo run -p rev_gol -- analyze [OPTIONS]
 ```
 
 **Options:**
@@ -203,34 +224,34 @@ The solver uses a hybrid encoding approach:
 echo -e "000\n111\n000" > input/target_states/my_blinker.txt
 
 # Find predecessors
-cargo run -- solve --target input/target_states/my_blinker.txt --generations 1
+cargo run -p rev_gol -- solve --target input/target_states/my_blinker.txt --generations 1
 ```
 
 ### Using Different Solver Backends
 
 ```bash
 # Use CaDiCaL solver (default)
-cargo run -- solve --config config/cadical_fast.yaml
+cargo run -p rev_gol -- solve --config config/cadical_fast.yaml
 
 # Use ParKissat-RS for multithreaded solving
-cargo run -- solve --config config/parkissat_thorough.yaml
+cargo run -p rev_gol -- solve --config config/parkissat_thorough.yaml
 ```
 
 ### Analyzing a Complex Pattern
 
 ```bash
 # Analyze the solvability of a glider
-cargo run -- analyze --target input/target_states/glider.txt
+cargo run -p rev_gol -- analyze --target input/target_states/glider.txt
 ```
 
 ### Running Benchmarks
 
 ```bash
 # Compare solver performance
-cargo run --example benchmark_multithreaded
+cargo run -p rev_gol --example benchmark_multithreaded
 
 # Test solver backends
-cargo run --example solver_demo
+cargo run -p rev_gol --example solver_demo
 ```
 
 ## Performance Considerations
@@ -285,7 +306,7 @@ The complexity of the SAT problem grows with:
 
 Run with verbose output to see detailed information:
 ```bash
-cargo run -- solve --verbose
+cargo run -p rev_gol -- solve --verbose
 ```
 
 ## Contributing
@@ -308,12 +329,12 @@ cargo test
 cargo test -- --nocapture
 
 # Run specific module tests
-cargo test game_of_life
-cargo test sat
+cargo test -p rev_gol game_of_life
+cargo test -p rev_gol sat
 
 # Run examples
-cargo run --example solver_demo
-cargo run --example benchmark_multithreaded
+cargo run -p rev_gol --example solver_demo
+cargo run -p rev_gol --example benchmark_multithreaded
 ```
 
 ## License

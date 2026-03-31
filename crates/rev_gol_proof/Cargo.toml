@@ -1,0 +1,8 @@
+[package]
+name = "rev_gol_proof"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anyhow = "1.0.98"
+rev_gol = { path = "../rev_gol" }

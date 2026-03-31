@@ -1,0 +1,10 @@
+[package]
+name = "text_to_input"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "text_to_input"
+path = "src/main.rs"
+
+[dependencies]
