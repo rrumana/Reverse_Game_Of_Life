@@ -12,7 +12,10 @@ fn main() -> Result<()> {
     let construction = ConstructionCompiler::compile_cnf(&formula)?;
     let (width, height) = construction.bounds();
 
-    println!("Macro construction bounds: {} columns x {} rows", width, height);
+    println!(
+        "Macro construction bounds: {} columns x {} rows",
+        width, height
+    );
     println!("{}", construction.render_blueprint());
     if let Ok(board) = build_published_board(&construction) {
         println!(

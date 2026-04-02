@@ -109,10 +109,7 @@ mod tests {
 
     #[test]
     fn test_parse_dimacs_str_basic_formula() {
-        let formula = parse_dimacs_str(
-            "c example\np cnf 3 2\n1 -2 0\n2 3 0\n",
-        )
-        .unwrap();
+        let formula = parse_dimacs_str("c example\np cnf 3 2\n1 -2 0\n2 3 0\n").unwrap();
 
         assert_eq!(formula.clauses.len(), 2);
         assert_eq!(formula.variables(), vec!["x1", "x2", "x3"]);
@@ -127,6 +124,8 @@ mod tests {
     #[test]
     fn test_parse_dimacs_rejects_unterminated_clause() {
         let err = parse_dimacs_str("p cnf 2 1\n1 -2\n").unwrap_err();
-        assert!(err.to_string().contains("ended before a clause-terminating 0"));
+        assert!(err
+            .to_string()
+            .contains("ended before a clause-terminating 0"));
     }
 }

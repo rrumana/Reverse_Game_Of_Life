@@ -826,7 +826,6 @@ pub fn verify_published_pattern(
     gadget: &GadgetPattern,
     spec: &PublishedSpec,
 ) -> Result<PublishedVerificationReport> {
-
     let size_matches = spec
         .size
         .map(|PublishedSize(w, h)| published.width == w && published.height == h)

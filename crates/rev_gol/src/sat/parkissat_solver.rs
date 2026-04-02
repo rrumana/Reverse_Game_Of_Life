@@ -119,7 +119,10 @@ impl ParkissatSatSolver {
     }
 
     /// Solve under a set of assumptions and return the first solution, if any.
-    pub fn solve_with_assumptions(&mut self, assumptions: &[i32]) -> Result<Option<SolverSolution>> {
+    pub fn solve_with_assumptions(
+        &mut self,
+        assumptions: &[i32],
+    ) -> Result<Option<SolverSolution>> {
         let start_time = Instant::now();
         let result = self.solve_status_with_assumptions(assumptions)?;
         let solve_time = start_time.elapsed();
@@ -199,7 +202,9 @@ impl ParkissatSatSolver {
         self.solver
             .get_model_value(variable)
             .map(Some)
-            .map_err(|e| anyhow::anyhow!("Failed to get model value for variable {}: {}", variable, e))
+            .map_err(|e| {
+                anyhow::anyhow!("Failed to get model value for variable {}: {}", variable, e)
+            })
     }
 
     /// Add a blocking clause to prevent finding the same solution again

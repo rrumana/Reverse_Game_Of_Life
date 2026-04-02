@@ -246,7 +246,10 @@ fn spec_relation_maps(spec: &PublishedSpec) -> Vec<BTreeMap<String, u8>> {
 
 fn named_relation_assignments(
     spec: &GenericRelationSpec,
-) -> (Vec<rev_gol_proof::verifier::PortAssignment>, Vec<rev_gol_proof::verifier::PortAssignment>) {
+) -> (
+    Vec<rev_gol_proof::verifier::PortAssignment>,
+    Vec<rev_gol_proof::verifier::PortAssignment>,
+) {
     let allowed = spec
         .relation_items
         .iter()
@@ -280,9 +283,7 @@ fn named_relation_assignments(
     (allowed, forbidden)
 }
 
-fn compose_horizontal_target_spec(
-    family: &HorizontalMotifFamily,
-) -> Result<GenericRelationSpec> {
+fn compose_horizontal_target_spec(family: &HorizontalMotifFamily) -> Result<GenericRelationSpec> {
     let left = published_spec_named(&family.left_spec)
         .with_context(|| format!("Unknown published spec '{}'", family.left_spec))?;
     let connector = published_spec_named(&family.connector_name)
@@ -406,7 +407,14 @@ fn compose_vertical_target_spec(family: &VerticalMotifFamily) -> Result<GenericR
     })
 }
 
-fn anchor_positions(pattern: &PublishedPattern) -> Result<(Option<(isize, isize)>, Option<(isize, isize)>, Option<(isize, isize)>, Option<(isize, isize)>)> {
+fn anchor_positions(
+    pattern: &PublishedPattern,
+) -> Result<(
+    Option<(isize, isize)>,
+    Option<(isize, isize)>,
+    Option<(isize, isize)>,
+    Option<(isize, isize)>,
+)> {
     let anchors = pattern.find_wires();
     Ok((
         anchors.east.map(|c| (c.x, c.y)),
@@ -645,7 +653,8 @@ fn build_composed_gadget(
             merged_ports.insert(port_spec.external_name.clone(), translated);
         }
         merged_base.extend(
-            piece.gadget
+            piece
+                .gadget
                 .base_predecessor_literals
                 .iter()
                 .copied()
@@ -695,7 +704,12 @@ fn search_job_positions(
                 .iter()
                 .map(|(piece, x, y)| (piece.spec_name.clone(), *x, *y))
                 .collect::<Vec<_>>();
-            on_progress(*checked_candidates, total_candidates, results.len(), current_candidate.clone());
+            on_progress(
+                *checked_candidates,
+                total_candidates,
+                results.len(),
+                current_candidate.clone(),
+            );
             let (_published, gadget) =
                 build_composed_gadget(&format!("search:{}", job.label), current)?;
             let (allowed, forbidden) = named_relation_assignments(&job.target_spec);
@@ -711,7 +725,12 @@ fn search_job_positions(
                     placements: current_candidate.clone(),
                     report,
                 });
-                on_progress(*checked_candidates, total_candidates, results.len(), current_candidate);
+                on_progress(
+                    *checked_candidates,
+                    total_candidates,
+                    results.len(),
+                    current_candidate,
+                );
             }
             return Ok(());
         }
@@ -847,39 +866,40 @@ fn main() -> Result<()> {
         let root = root.clone();
         let max_results = options.max_results;
         let threads_per_job = options.threads_per_job;
-        thread::spawn(move || {
-            loop {
-                let Some((index, job)) = queue.lock().unwrap().pop_front() else {
-                    break;
-                };
+        thread::spawn(move || loop {
+            let Some((index, job)) = queue.lock().unwrap().pop_front() else {
+                break;
+            };
 
-                let verifier = GadgetVerifier::new(GadgetVerifierConfig {
-                    backend: SolverBackend::Parkissat,
-                    num_threads: Some(threads_per_job),
-                    enable_preprocessing: true,
-                    verbosity: 0,
-                    timeout: None,
-                });
-                let total_candidates = job.pieces.iter().fold(1usize, |acc, piece| {
-                    acc.saturating_mul(
-                        piece.placement
-                            .x_values
-                            .len()
-                            .saturating_mul(piece.placement.y_values.len()),
-                    )
-                });
-                let _ = tx.send(Event::Started {
-                    worker,
-                    job_label: job.label.clone(),
-                    index: index + 1,
-                    total_jobs,
-                    total_candidates,
-                });
-                let job_started = Instant::now();
-                let mut progress_callback = |checked_candidates: usize,
-                                             total_candidates: usize,
-                                             matches_found: usize,
-                                             current_candidate: Vec<(String, isize, isize)>| {
+            let verifier = GadgetVerifier::new(GadgetVerifierConfig {
+                backend: SolverBackend::Parkissat,
+                num_threads: Some(threads_per_job),
+                enable_preprocessing: true,
+                verbosity: 0,
+                timeout: None,
+            });
+            let total_candidates = job.pieces.iter().fold(1usize, |acc, piece| {
+                acc.saturating_mul(
+                    piece
+                        .placement
+                        .x_values
+                        .len()
+                        .saturating_mul(piece.placement.y_values.len()),
+                )
+            });
+            let _ = tx.send(Event::Started {
+                worker,
+                job_label: job.label.clone(),
+                index: index + 1,
+                total_jobs,
+                total_candidates,
+            });
+            let job_started = Instant::now();
+            let mut progress_callback =
+                |checked_candidates: usize,
+                 total_candidates: usize,
+                 matches_found: usize,
+                 current_candidate: Vec<(String, isize, isize)>| {
                     let _ = tx.send(Event::Progress {
                         worker,
                         job_label: job.label.clone(),
@@ -890,25 +910,25 @@ fn main() -> Result<()> {
                     });
                 };
 
-                match search_job_positions(&verifier, &root, &job, max_results, &mut progress_callback) {
-                    Ok(results) => {
-                        let _ = tx.send(Event::Finished {
-                            worker,
-                            job_label: job.label,
-                            index: index + 1,
-                            elapsed: job_started.elapsed(),
-                            results,
-                        });
-                    }
-                    Err(err) => {
-                        let _ = tx.send(Event::Failed {
-                            worker,
-                            job_label: job.label,
-                            index: index + 1,
-                            elapsed: job_started.elapsed(),
-                            error: err.to_string(),
-                        });
-                    }
+            match search_job_positions(&verifier, &root, &job, max_results, &mut progress_callback)
+            {
+                Ok(results) => {
+                    let _ = tx.send(Event::Finished {
+                        worker,
+                        job_label: job.label,
+                        index: index + 1,
+                        elapsed: job_started.elapsed(),
+                        results,
+                    });
+                }
+                Err(err) => {
+                    let _ = tx.send(Event::Failed {
+                        worker,
+                        job_label: job.label,
+                        index: index + 1,
+                        elapsed: job_started.elapsed(),
+                        error: err.to_string(),
+                    });
                 }
             }
         });

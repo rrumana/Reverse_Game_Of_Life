@@ -69,8 +69,20 @@ pub struct CompiledConstruction {
 
 impl CompiledConstruction {
     pub fn bounds(&self) -> (usize, usize) {
-        let width = self.instances.iter().map(|item| item.column).max().unwrap_or(0) + 1;
-        let height = self.instances.iter().map(|item| item.row).max().unwrap_or(0) + 1;
+        let width = self
+            .instances
+            .iter()
+            .map(|item| item.column)
+            .max()
+            .unwrap_or(0)
+            + 1;
+        let height = self
+            .instances
+            .iter()
+            .map(|item| item.row)
+            .max()
+            .unwrap_or(0)
+            + 1;
         (width, height)
     }
 
@@ -170,8 +182,7 @@ impl CompiledConstruction {
                     Self::get_instance_port(values, instance.id, "lhs"),
                     Self::get_instance_port(values, instance.id, "rhs"),
                 ) {
-                    changed |=
-                        Self::set_instance_port(values, instance.id, "out", lhs || rhs)?;
+                    changed |= Self::set_instance_port(values, instance.id, "out", lhs || rhs)?;
                 }
             }
             MacroKind::Splitter => {
@@ -351,22 +362,26 @@ impl ConstructionCompiler {
             match node.kind {
                 CircuitNodeKind::Input { .. } | CircuitNodeKind::Const { .. } => {}
                 CircuitNodeKind::Not { input } => {
-                    out.entry(input).or_default().push(TargetEndpoint::InputPort(
-                        PortRef {
+                    out.entry(input)
+                        .or_default()
+                        .push(TargetEndpoint::InputPort(PortRef {
                             instance: instance_by_node[&node.id],
                             port: "in",
-                        },
-                    ));
+                        }));
                 }
                 CircuitNodeKind::Or { lhs, rhs } => {
-                    out.entry(lhs).or_default().push(TargetEndpoint::InputPort(PortRef {
-                        instance: instance_by_node[&node.id],
-                        port: "lhs",
-                    }));
-                    out.entry(rhs).or_default().push(TargetEndpoint::InputPort(PortRef {
-                        instance: instance_by_node[&node.id],
-                        port: "rhs",
-                    }));
+                    out.entry(lhs)
+                        .or_default()
+                        .push(TargetEndpoint::InputPort(PortRef {
+                            instance: instance_by_node[&node.id],
+                            port: "lhs",
+                        }));
+                    out.entry(rhs)
+                        .or_default()
+                        .push(TargetEndpoint::InputPort(PortRef {
+                            instance: instance_by_node[&node.id],
+                            port: "rhs",
+                        }));
                 }
             }
         }

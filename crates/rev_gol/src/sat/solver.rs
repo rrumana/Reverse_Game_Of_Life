@@ -135,7 +135,10 @@ impl SatSolver {
     }
 
     /// Solve under a set of assumptions and return the first solution, if any.
-    pub fn solve_with_assumptions(&mut self, assumptions: &[i32]) -> Result<Option<SolverSolution>> {
+    pub fn solve_with_assumptions(
+        &mut self,
+        assumptions: &[i32],
+    ) -> Result<Option<SolverSolution>> {
         let start_time = Instant::now();
         let result = self.solve_status_with_assumptions(assumptions)?;
         let solve_time = start_time.elapsed();

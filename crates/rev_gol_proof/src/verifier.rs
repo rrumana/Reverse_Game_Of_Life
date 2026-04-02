@@ -636,9 +636,9 @@ impl GadgetVerifier {
     }
 
     fn prepare_gadget(&self, gadget: &GadgetPattern) -> Result<PreparedProofSolver> {
-        let instance = self
-            .build_sat_instance(gadget)
-            .with_context(|| format!("Failed to build SAT encoding for gadget '{}'", gadget.name))?;
+        let instance = self.build_sat_instance(gadget).with_context(|| {
+            format!("Failed to build SAT encoding for gadget '{}'", gadget.name)
+        })?;
         let mut solver = UnifiedSatSolver::new(self.config.backend)
             .context("Failed to create solver for gadget verification")?;
         solver

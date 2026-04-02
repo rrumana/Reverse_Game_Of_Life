@@ -63,7 +63,11 @@ impl CnfFormula {
         self.clauses.iter().all(|clause| {
             clause.literals.iter().any(|literal| {
                 let value = assignment.get(&literal.variable).copied().unwrap_or(false);
-                if literal.negated { !value } else { value }
+                if literal.negated {
+                    !value
+                } else {
+                    value
+                }
             })
         })
     }
@@ -283,14 +287,8 @@ mod tests {
             Clause::new(vec![Literal::positive("y")]),
         ]);
 
-        let false_case = BTreeMap::from([
-            ("x".to_string(), false),
-            ("y".to_string(), false),
-        ]);
-        let true_case = BTreeMap::from([
-            ("x".to_string(), true),
-            ("y".to_string(), true),
-        ]);
+        let false_case = BTreeMap::from([("x".to_string(), false), ("y".to_string(), false)]);
+        let true_case = BTreeMap::from([("x".to_string(), true), ("y".to_string(), true)]);
 
         assert!(!formula.evaluate(&false_case));
         assert!(formula.evaluate(&true_case));

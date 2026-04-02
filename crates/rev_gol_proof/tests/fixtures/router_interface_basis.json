@@ -1,0 +1,479 @@
+{
+  "horizontal": [
+    {
+      "orientation": "Horizontal",
+      "label": "NE turn tile --connector 1 to -1--> SW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "right_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "NE turn tile --connector 1 to 0--> crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "right_E",
+        "right_N",
+        "right_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "NE turn tile --connector 1 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "right_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "NE turn tile --connector 1 to 1--> NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "right_N"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "NOT gate tile --connector 0 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W",
+        "right_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "OR gate tile --connector 0 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "left_S",
+        "right_E"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "SE turn tile --connector -1 to -1--> SW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_S",
+        "right_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "SE turn tile --connector -1 to 0--> crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_S",
+        "right_E",
+        "right_N",
+        "right_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "SE turn tile --connector -1 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_S",
+        "right_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "SE turn tile --connector -1 to 1--> NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_S",
+        "right_N"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "crossing tile --connector -1 to -1--> SW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "left_W",
+        "left_S",
+        "right_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "crossing tile --connector -1 to 0--> crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "left_W",
+        "left_S",
+        "right_E",
+        "right_N",
+        "right_S"
+      ],
+      "expected_allowed_rows": 8,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "crossing tile --connector -1 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "left_W",
+        "left_S",
+        "right_E"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "crossing tile --connector -1 to 1--> NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "left_W",
+        "left_S",
+        "right_N"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "horizontal wire tile --connector 0 to -1--> SW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W",
+        "right_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "horizontal wire tile --connector 0 to 0--> crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W",
+        "right_E",
+        "right_N",
+        "right_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "horizontal wire tile --connector 0 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W",
+        "right_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "horizontal wire tile --connector 0 to 1--> NOT gate tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W",
+        "right_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "horizontal wire tile --connector 0 to 1--> NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W",
+        "right_N"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "horizontal wire tile --connector 0 to 1--> enforcer gadget",
+      "witness_count": 1,
+      "external_ports": [
+        "left_W"
+      ],
+      "expected_allowed_rows": 1,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Horizontal",
+      "label": "splitter tile --connector -1 to 0--> horizontal wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "left_N",
+        "left_S",
+        "right_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    }
+  ],
+  "vertical": [
+    {
+      "orientation": "Vertical",
+      "label": "OR gate tile / vertical wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "top_N",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SE turn tile / NE turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "bottom_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SE turn tile / NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "bottom_W"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SE turn tile / crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "bottom_E",
+        "bottom_W",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SE turn tile / vertical wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SW turn tile / NE turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_W",
+        "bottom_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SW turn tile / NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_W",
+        "bottom_W"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SW turn tile / crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_W",
+        "bottom_E",
+        "bottom_W",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "SW turn tile / vertical wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_W",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "crossing tile / NE turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "top_N",
+        "top_W",
+        "bottom_E"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "crossing tile / NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "top_N",
+        "top_W",
+        "bottom_W"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "crossing tile / vertical wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "top_N",
+        "top_W",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "splitter tile / vertical wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_E",
+        "top_N",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "vertical wire tile / NE turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_N",
+        "bottom_E"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "vertical wire tile / NW turn tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_N",
+        "bottom_W"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "vertical wire tile / OR gate tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_N",
+        "bottom_E",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "vertical wire tile / crossing tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_N",
+        "bottom_E",
+        "bottom_W",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 4,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "vertical wire tile / splitter tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_N",
+        "bottom_E",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    },
+    {
+      "orientation": "Vertical",
+      "label": "vertical wire tile / vertical wire tile",
+      "witness_count": 1,
+      "external_ports": [
+        "top_N",
+        "bottom_S"
+      ],
+      "expected_allowed_rows": 2,
+      "candidate_count": 1
+    }
+  ]
+}

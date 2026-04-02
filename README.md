@@ -19,13 +19,34 @@ For the current integration/proof status of the workspace, see `docs/current_sta
 
 The main reverse solver converts finite reverse-Game-of-Life instances into SAT and uses CaDiCaL or ParKissat to search for valid predecessor states. The proof crate is kept separate because it targets a different verification problem than the finite-board reverse solver.
 
-The proof crate now also contains a first `SAT -> Rev_GOL` construction stack:
+The proof crate now contains a working `SAT -> Rev_GOL` certificate stack:
 
 - CNF / Boolean-circuit IR
 - macro-level gadget placement compiler
+- symbolic gadget-contract certification for compiled constructions
 - splitter expansion for shared fanout
+- constructive rectilinear routing witnesses
+- external-input boundary certification
+- SAT-backed router interface basis discharge
+- finite dead-boundary padding certification
 - a printable layout blueprint via `cargo run -p rev_gol_proof --example compile_cnf`
-- DIMACS input support plus optional export of emitted board candidates in `rev_gol` grid format via `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --output-grid <FILE>`
+- DIMACS input support for macro compilation and exhaustive truth-table checks via `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --check-exhaustive`
+- optional SAT-backed discharge of symbolic gadget contracts via `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --discharge-logical-contracts [--contract-filter <TEXT>] [--contract-timeout-seconds <N>]`
+- SAT-backed discharge of a reusable router interface basis via `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --discharge-router-interface-basis --save-interface-basis <FILE>`
+- loading a saved interface basis certificate into the main construction certificate via `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --load-interface-basis <FILE>`
+- explicit board-motif auditing via `cargo run -p rev_gol_proof --example audit_board -- --input <FILE>`
+- experimental published-board emission, enabled explicitly with `cargo run -p rev_gol_proof --example compile_dimacs -- --input <FILE> --build-board --output-grid <FILE>`
+
+The proof-facing default path is now:
+
+1. compile the CNF into a macro construction,
+2. certify the construction against explicit symbolic contracts for the published gadgets,
+3. build and certify an explicit routing witness and external-input encoding,
+4. discharge and save the finite router interface basis,
+5. load that basis certificate and observe that the remaining proof obligations drop to zero for the current proof model,
+6. treat published-board emission as an optional witness-generation experiment rather than the core proof obligation.
+
+For the current status and remaining theorem-writing tasks, see `docs/current_state.md`.
 
 ### Key Features
 

@@ -47,7 +47,10 @@ impl UnifiedSatSolver {
     }
 
     /// Solve the SAT problem under a temporary set of assumptions.
-    pub fn solve_with_assumptions(&mut self, assumptions: &[i32]) -> Result<Option<SolverSolution>> {
+    pub fn solve_with_assumptions(
+        &mut self,
+        assumptions: &[i32],
+    ) -> Result<Option<SolverSolution>> {
         match self {
             UnifiedSatSolver::Cadical(solver) => solver.solve_with_assumptions(assumptions),
             UnifiedSatSolver::Parkissat(solver) => solver.solve_with_assumptions(assumptions),
